@@ -27,7 +27,7 @@ class Game:
     def update_current_game_score(self):
         self.current_game_score  = (self.player1.score, self.player2.score)   
 
-    def point_won_by(self, player):
+    def won_point(self, player):
         # Add point to player 1 or 2
         if player == self.player1:
             self.player1.add_point()
@@ -35,11 +35,16 @@ class Game:
             self.player2.add_point()
         # Update current_game_score
         self.update_current_game_score()
-
     
-    
+    def is_over(self):
+        p1, p2 = self.player1.score, self.player2.score
+        return (p1 >= self.max_score or p2 >= self.max_score) and abs(p1 - p2) >= 2
 
 
 class Match:
-    def __init__(self, player1, player2, games_to_win):
-        pass
+    def __init__(self, player1, player2, games_to_win=3):
+        self.player1 = player1
+        self.player2 = player2
+        self.games_to_win = games_to_win
+        self.current_game = Game(player1, player2)
+        self.game_history = []

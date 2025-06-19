@@ -10,7 +10,8 @@ def create_players():
 
 def main():
     player1, player2 = create_players()
-    display_scoreboard(player1, player2)
+    match = Match(player1, player2)
+    display_scoreboard(player1, player2, match.game_history)
 
 
 if __name__ == "__main__":
