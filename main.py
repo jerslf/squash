@@ -1,6 +1,7 @@
-from classes import Player, Game, Match
+from player import Player
+from match import Match
+from game import Game
 from scoreboard import display_scoreboard
-
 
 def create_players():
     player1 = Player("Jeremy")

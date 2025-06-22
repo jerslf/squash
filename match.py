@@ -8,3 +8,4 @@ class Match:
         self.games_to_win = games_to_win
         self.current_game = Game(player1, player2)
         self.game_history = []
+        self.winner = None
