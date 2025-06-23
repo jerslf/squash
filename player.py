@@ -4,9 +4,6 @@ class Player:
         self.score = 0
         self.games_won = 0
     
-    def reset_score(self):
-        self.score = 0
-    
     def add_point(self):
         self.score += 1
     
@@ -16,3 +13,13 @@ class Player:
     
     def won_game(self):
         self.games_won += 1
+    
+    def reset_score(self):
+        self.score = 0
+
+    def reset_match(self):
+        self.score = 0
+        self.games_won = 0
+    
+    def __str__(self):
+        return f"{self.name} ({self.games_won} games)"
