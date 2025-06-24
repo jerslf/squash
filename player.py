@@ -13,6 +13,7 @@ class Player:
     
     def won_game(self):
         self.games_won += 1
+        self.reset_score()
     
     def reset_score(self):
         self.score = 0
@@ -22,4 +23,4 @@ class Player:
         self.games_won = 0
     
     def __str__(self):
-        return f"{self.name} ({self.games_won} games)"
+        return f"{self.name} (games won: {self.games_won})"

@@ -9,13 +9,18 @@ class Game:
         self.is_finished = False
         self.winner = None
 
+        # Reset players score for new game
+        self.player1.reset_score()
+        self.player2.reset_score()
+
     def update_game_score(self):
         self.game_score  = (self.player1.score, self.player2.score)   
 
     def won_point(self, player):
         """Add point to specified player and check if game is over"""
         if self.is_finished:
-            return
+            print("Can't award point, game is finished")
+            return False
         
         if player == self.player1:
             self.player1.add_point()
