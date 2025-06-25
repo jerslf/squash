@@ -53,7 +53,7 @@ class Game:
     
     def finish_game(self):
         """Mark game as finished and determine winner"""
-        if not self.is_over:
+        if not self.is_over():
             return False
         
         self.is_finished = True
