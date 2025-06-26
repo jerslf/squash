@@ -1,5 +1,6 @@
 from player import Player
 from game import Game
+from serve import Serve
 
 class Match:
     def __init__(self, player1, player2, games_to_win=3):
@@ -10,6 +11,7 @@ class Match:
         self.game_history = []
         self.is_finished = False
         self.winner = None
+        self.serve = Serve(player1, player2)
 
         # Reset players for new match
         self.player1.reset_match()
@@ -23,7 +25,7 @@ class Match:
         
         if self.current_game.is_finished:
             # Update game_history
-            self.game_history.append(self.current_game.game_score)
+            self.game_history.append(self.current_game)
 
             # Check if match is over
             if self.is_over():
@@ -42,17 +44,17 @@ class Match:
         
         self.current_game.won_point(player)
 
+        # Handle Serve
+        if player == self.serve.server:
+            self.serve.alternate_side()
+        else:
+            self.serve.handout()
+
         # Check if we need to start a new game
         if self.current_game.is_finished:
             self.start_new_game()
 
         return True
-    
-    def lost_point(self, player):
-        """Remove point from player"""
-        if self.is_finished:
-            return False
-        return self.current_game.remove_point(player)
     
     def remove_point(self, player):
         """Remove point from player"""

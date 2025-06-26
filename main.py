@@ -37,17 +37,15 @@ def main():
         elif command == 'r':
             confirm = input("Are you sure you want to reset the match? (y/N): ")
             if confirm.lower() == 'y':
-                match = Match(match.player1, match.player2)
+                match = Match(player1, player2)
                 scoreboard = Scoreboard(match)
         elif command == 'q':
             print("Exiting match.")
             break
         else:
             print("Invalid input, please try again.")
-            input("Press Enter to continue...") # Pause for user to see the error
+            input("Press Enter to continue...")
         
-        print(match.game_history)
-
 
 if __name__ == "__main__":
     main()
