@@ -4,9 +4,18 @@ from game import Game
 from scoreboard import Scoreboard
 
 def create_players():
-    player1 = Player("Jeremy")
-    player2 = Player("Alex")
+    """Prompts the user to enter names for the two players."""
+    p1_name = input("Enter name for Player 1: ")
+    p2_name = input("Enter name for Player 2: ")
+    
+    # Use provided names, or default if none are given
+    player1 = Player(p1_name if p1_name else "Player A")
+    player2 = Player(p2_name if p2_name else "Player B")
+    
+    print(f"\nMatch: {player1.name} vs {player2.name}. Best of 5 games.")
+    input("Press Enter to start...")
     return player1, player2
+
 
 def main():
     player1, player2 = create_players()
@@ -24,27 +33,32 @@ def main():
             break
         
         # Handle command
-        command = input("\nEnter command: ").lower().strip()
+        command = input("\nEnter command: ").strip()
 
-        if command == "1":
-            match.won_point(match.player1)
-        elif command == '2':
-            match.won_point(match.player2)
-        elif command == 'u1':
-            match.remove_point(match.player1)
-        elif command == 'u2':
-            match.remove_point(match.player2)
-        elif command == 'r':
-            confirm = input("Are you sure you want to reset the match? (y/N): ")
-            if confirm.lower() == 'y':
-                match = Match(player1, player2)
-                scoreboard = Scoreboard(match)
-        elif command == 'q':
-            print("Exiting match.")
-            break
-        else:
-            print("Invalid input, please try again.")
-            input("Press Enter to continue...")
+        match command:
+            case "1":
+                match.won_point(match.player1)
+            case "2":
+                match.won_point(match.player2)
+            case "u1":
+                match.remove_point(match.player1)
+            case "u2":
+                match.remove_point(match.player2)
+            case "l":
+                match.serve.set_serve_side("Left")
+            case "r":
+                match.serve.set_serve_side("Right")
+            case "RE":
+                confirm = input("Are you sure you want to reset the match? (y/N): ")
+                if confirm.lower() == 'y' or confirm.lower() == "yes":
+                    match = Match(player1, player2)
+                    scoreboard = Scoreboard(match)
+            case "q":
+                print("Exiting match.")
+                break
+            case _:
+                print("Invalid input, please try again.")
+                input("Press Enter to continue...")
         
 
 if __name__ == "__main__":

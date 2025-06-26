@@ -38,19 +38,52 @@ class Scoreboard:
         print("+-----------------+--------+------+------+------+------+------+\n")'''
     
     def display_match_score(self):
+        serve = self.match.serve
+        # Add indicator and side to the server's display
+        # p1 Left
+        if serve.server == self.match.player1 and serve.side == "Left":
+            p1_display = f"{serve.left_indicator} {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
+        # p1 Right
+        elif serve.server == self.match.player1 and serve.side == "Right":
+            p1_display = f"{serve.right_indicator} {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
+        # p2 Left
+        elif serve.server == self.match.player2 and serve.side == "Left":
+            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} {serve.left_indicator}]"
+        # p2 Right
+        elif serve.server == self.match.player2 and serve.side == "Right":
+            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} {serve.right_indicator}]"
+        else:
+        # fallback in case of unexpected state
+            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
+
+        # Add 5 for padding and the separator between scores (3 for " - " and 2 for spaces)
+        content_width = max(len(p1_display) + len(p2_display) + 5, 20)  # minimum width of 20
+        
         print("\nSQUASH MATCH SCOREBOARD - BEST OF 5\n")
-        print("+-------------------------------+")
-        print(f"| {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score} - {self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} |")
-        print("+-------------------------------+\n")
+        print("+" + "-" * content_width + "+")
+        print(f"| {p1_display} - {p2_display} |")
+        print("+" + "-" * content_width + "+\n")
 
     def display_controls(self):
         """Display control instructions"""
-        print("CONTROLS:")
+        print("-" * 40)
+        print("SCORING:")
         print(f"1  - Point to {self.match.player1.name}")
         print(f"2  - Point to {self.match.player2.name}")
         print(f"u1 - Remove last point from {self.match.player1.name}")
         print(f"u2 - Remove last point from {self.match.player2.name}")
-        print("r  - Reset match")
+        print()
+        print("SERVE:")
+        print(f"l  - Serving from Left")
+        print(f"r  - Serving from Right")
+        print()
+        print("MATCH:")
+        print("RE - Reset match")
         print("q  - Quit")
         print("-" * 40)
     

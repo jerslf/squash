@@ -7,7 +7,8 @@ class Serve:
         self.server = player1
         self.side = "Right"
         self.hand_out = True
-        self.indicator = "●"
+        self.left_indicator = "🅛"
+        self.right_indicator = "🅡"
     
     def handout(self):
         if self.server == self.player1:
@@ -16,8 +17,11 @@ class Serve:
             self.server = self.player1
         
         self.hand_out = True
+        self.side = "Right"
 
     def set_serve_side(self, side):
+        if side not in ["Left", "Right"]:
+            raise ValueError("Side must be 'Left' or 'Right'")
         self.side = side
     
     def alternate_side(self):
