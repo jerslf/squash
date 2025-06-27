@@ -40,26 +40,25 @@ class Scoreboard:
     def display_match_score(self):
         serve = self.match.serve
         # Add indicator and side to the server's display
-        # p1 Left
-        if serve.server == self.match.player1 and serve.side == "Left":
-            p1_display = f"{serve.left_indicator} {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
-            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
-        # p1 Right
-        elif serve.server == self.match.player1 and serve.side == "Right":
-            p1_display = f"{serve.right_indicator} {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
-            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
-        # p2 Left
-        elif serve.server == self.match.player2 and serve.side == "Left":
-            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
-            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} {serve.left_indicator}]"
-        # p2 Right
-        elif serve.server == self.match.player2 and serve.side == "Right":
-            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
-            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} {serve.right_indicator}]"
+        # Determine serve indicator
+        if serve.side == "Left" and serve.hand_out == True:
+            indicator  = serve.hand_out_left_indicator
+        elif serve.side == "Right" and serve.hand_out == True:
+            indicator  = serve.hand_out_right_indicator
+        elif serve.side == "Left" and serve.hand_out == False:
+            indicator  = serve.left_indicator
         else:
-        # fallback in case of unexpected state
-            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            indicator  = serve.right_indicator
+
+       
+        # Build display strings based on server
+        if serve.server == self.match.player1:
+            p1_display = f"{indicator} {self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
             p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name}"
+        else:
+            p1_display = f"{self.match.player1.name} ({self.match.player1.games_won}) {self.match.player1.score}"
+            p2_display = f"{self.match.player2.score} ({self.match.player2.games_won}) {self.match.player2.name} {indicator}"
+
 
         # Add 5 for padding and the separator between scores (3 for " - " and 2 for spaces)
         content_width = max(len(p1_display) + len(p2_display) + 5, 20)  # minimum width of 20
@@ -75,16 +74,18 @@ class Scoreboard:
         print("SCORING:")
         print(f"1  - Point to {self.match.player1.name}")
         print(f"2  - Point to {self.match.player2.name}")
-        print(f"u1 - Remove last point from {self.match.player1.name}")
-        print(f"u2 - Remove last point from {self.match.player2.name}")
+        print(f"U1 - Remove last point from {self.match.player1.name}")
+        print(f"U2 - Remove last point from {self.match.player2.name}")
         print()
         print("SERVE:")
-        print(f"l  - Serving from Left")
-        print(f"r  - Serving from Right")
+        print("L  - Serving from Left")
+        print("R  - Serving from Right")
+        print(f"S1  - {self.match.player1.name} serving")
+        print(f"S2  - {self.match.player2.name} serving")
         print()
         print("MATCH:")
-        print("RE - Reset match")
-        print("q  - Quit")
+        print("RESET - Reset match")
+        print("Q  - Quit")
         print("-" * 40)
     
     def display_serve_info(self):
@@ -93,6 +94,5 @@ class Scoreboard:
     def update_display(self):
         """Update full scoreboard display"""
         self.clear_screen()
-        self.display_match_score()
-        self.display_serve_info()
         self.display_controls()
+        self.display_match_score()

@@ -5,15 +5,13 @@ from scoreboard import Scoreboard
 
 def create_players():
     """Prompts the user to enter names for the two players."""
-    p1_name = input("Enter name for Player 1: ")
-    p2_name = input("Enter name for Player 2: ")
+    p1_name = input("Enter name for Player 1: ").strip()
+    p2_name = input("Enter name for Player 2: ").strip()
     
     # Use provided names, or default if none are given
     player1 = Player(p1_name if p1_name else "Player A")
     player2 = Player(p2_name if p2_name else "Player B")
     
-    print(f"\nMatch: {player1.name} vs {player2.name}. Best of 5 games.")
-    input("Press Enter to start...")
     return player1, player2
 
 
@@ -21,6 +19,7 @@ def main():
     player1, player2 = create_players()
     match = Match(player1, player2)
     scoreboard = Scoreboard(match)
+    match.serve.set_initial_server()
 
     # Main loop
     while True:
@@ -35,7 +34,7 @@ def main():
         # Handle command
         command = input("\nEnter command: ").strip()
 
-        match command:
+        match command.lower():
             case "1":
                 match.won_point(match.player1)
             case "2":
@@ -44,13 +43,15 @@ def main():
                 match.remove_point(match.player1)
             case "u2":
                 match.remove_point(match.player2)
+            case "s1":
+                match.serve.change_server(match.player1)
+            case "s2":
+                match.serve.change_server(match.player2)
             case "l":
                 match.serve.set_serve_side("Left")
             case "r":
                 match.serve.set_serve_side("Right")
-            case "RE":
-                confirm = input("Are you sure you want to reset the match? (y/N): ")
-                if confirm.lower() == 'y' or confirm.lower() == "yes":
+            case "reset":
                     match = Match(player1, player2)
                     scoreboard = Scoreboard(match)
             case "q":

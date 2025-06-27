@@ -7,8 +7,11 @@ class Serve:
         self.server = player1
         self.side = "Right"
         self.hand_out = True
+
         self.left_indicator = "🅛"
         self.right_indicator = "🅡"
+        self.hand_out_left_indicator = "Ⓛ"
+        self.hand_out_right_indicator = "Ⓡ"
     
     def handout(self):
         if self.server == self.player1:
@@ -18,6 +21,22 @@ class Serve:
         
         self.hand_out = True
         self.side = "Right"
+
+    def set_initial_server(self):
+        print(f"1 - {self.player1.name}")
+        print(f"2 - {self.player2.name}")
+        server_input = input("Who's serving: ").strip()
+        if server_input == "1":
+            self.server = self.player1
+        elif server_input == "2":
+            self.server = self.player2
+        else:
+            print("Invalid input. Defaulting to Player 1.")
+            self.server = self.player1
+            input("Press Enter to continue...")
+    
+    def change_server(self, player):
+        self.server = player
 
     def set_serve_side(self, side):
         if side not in ["Left", "Right"]:
