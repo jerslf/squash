@@ -62,8 +62,15 @@ class Scoreboard:
 
         # Add 5 for padding and the separator between scores (3 for " - " and 2 for spaces)
         content_width = max(len(p1_display) + len(p2_display) + 5, 20)  # minimum width of 20
-        
-        print("\nSQUASH MATCH SCOREBOARD - BEST OF 5\n")
+
+        # Dynamic header based on match format
+        games_to_win = self.match.games_to_win
+        if games_to_win == 2:
+            match_format_str = "BEST OF 3"
+        else:
+            match_format_str = "BEST OF 5"
+
+        print(f"\nSQUASH MATCH SCOREBOARD - {match_format_str}\n")
         print("+" + "-" * content_width + "+")
         print(f"| {p1_display} - {p2_display} |")
         print("+" + "-" * content_width + "+\n")

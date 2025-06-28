@@ -14,10 +14,24 @@ def create_players():
     
     return player1, player2
 
+def select_match_format():
+    """Prompt user to select match format (best of 3 or best of 5)."""
+    print("Select match format:")
+    print("1 - Best of 3")
+    print("2 - Best of 5")
+    choice = input("Enter 1 or 2: ").strip()
+    if choice == "1":
+        return 2  # first to 2 wins (best of 3)
+    elif choice == "2":
+        return 3  # first to 3 wins (best of 5)
+    else:
+        print("Invalid input. Defaulting to Best of 5.")
+        return 3
 
 def main():
     player1, player2 = create_players()
-    match = Match(player1, player2)
+    games_to_win = select_match_format()
+    match = Match(player1, player2, games_to_win=games_to_win)
     scoreboard = Scoreboard(match)
     match.serve.set_initial_server()
 
@@ -52,7 +66,8 @@ def main():
             case "r":
                 match.serve.set_serve_side("Right")
             case "reset":
-                    match = Match(player1, player2)
+                    games_to_win = select_match_format()
+                    match = Match(player1, player2, games_to_win=games_to_win)
                     scoreboard = Scoreboard(match)
             case "q":
                 print("Exiting match.")
