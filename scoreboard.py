@@ -67,8 +67,10 @@ class Scoreboard:
         games_to_win = self.match.games_to_win
         if games_to_win == 2:
             match_format_str = "BEST OF 3"
-        else:
+        elif games_to_win == 3:
             match_format_str = "BEST OF 5"
+        else:
+            match_format_str = f"UNKNOWN FORMAT (games_to_win={games_to_win})"
 
         print(f"\nSQUASH MATCH SCOREBOARD - {match_format_str}\n")
         print("+" + "-" * content_width + "+")
